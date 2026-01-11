@@ -195,7 +195,11 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword, confirmPassword } = req.body;
-  const user = await User.findById(req.user?._id);
+  const user = await User.findById(req.user._id).select("+password")
+
+  if (!user) {
+  throw new ApiError(404, "User not found");
+}
 
   if (!req.user.isEmailVerified) {
     throw new ApiError(403, "Please verify your email to continue");
@@ -252,7 +256,7 @@ const updateAccountDetail = asyncHandler(async (req, res) => {
 
 export {
   registerUser,
-  loginUser,
+  loginUser, 
   logoutUser,
   refreshAccessToken,
   changeCurrentPassword,

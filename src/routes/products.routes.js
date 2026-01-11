@@ -4,11 +4,11 @@ import {
   getAllProducts,
   getProductById,
   updateProduct,
-  deleteProduct,
+  deleteProduct, 
 } from "../controllers/product.controllers.js";
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 import { isAdmin } from "../middlewares/admin.middlewares.js";
-
+ 
 const router = Router();
 
 router.route("/").post(verifyJWT, isAdmin, createProduct);
