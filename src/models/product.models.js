@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema(
       min: 0,
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId, 
       ref: "Category",
       required: true,
       trim: true,
@@ -44,6 +44,7 @@ const productSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    
   },
   { timestamps: true }
 );
