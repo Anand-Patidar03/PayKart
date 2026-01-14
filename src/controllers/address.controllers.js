@@ -142,7 +142,7 @@ const getAddresses = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, addresses, "Addresses fetched successfully"));
 
 
-});
+}); 
 
 const setDefaultAddress = asyncHandler(async (req, res) => {
 

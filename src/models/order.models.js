@@ -34,7 +34,6 @@ const orderSchema = new mongoose.Schema(
       state: String,
       pincode: String,
       country: String,
-      required: true,
     },
     paymentMethod: {
       type: String,
@@ -64,9 +63,9 @@ const orderSchema = new mongoose.Schema(
     deliveredAt: {
       type: Date,
     },
-    cancelledAt : {
+    cancelledAt: {
       type: Date,
-    }
+    },
   },
   { timestamps: true }
 );

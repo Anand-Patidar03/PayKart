@@ -10,7 +10,7 @@ const initiatePayment = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
   const { paymentProvider, currency = "INR" } = req.body;
 
-  if (!paymentProvider ) {
+  if (!paymentProvider ) { 
     throw new ApiError(400, "Invalid  or paymentProvider");
   }
 

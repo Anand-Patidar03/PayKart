@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { Rating } from "../models/rating.models.js";
 import { Product } from "../models/product.models.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import mongoose from "mongoose";
+import mongoose from "mongoose"; 
 
 const addReview = asyncHandler(async (req, res) => {
   const { productId } = req.params;
@@ -155,7 +155,7 @@ const getProductReviews = asyncHandler(async (req, res) => {
     );
 });
 
-export const RatingController = {
+export {
   addReview,
   updateReview,
   deleteReview,

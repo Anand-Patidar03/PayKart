@@ -3,11 +3,14 @@ import { ApiError } from "../utils/ApiError.js";
 import { Cart } from "../models/cart.models.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { Order } from "../models/order.models.js";
+import mongoose from "mongoose";
 
 const createOrder = asyncHandler(async (req, res) => {
   const { shippingAddress, paymentMethod } = req.body;
 
-  const cart = await Cart.findOne({ user: req.user._id });
+  const cart = await Cart.findOne({ user: req.user._id })
+  .populate("items.product");
+
 
   if (!cart) {
     throw new ApiError(404, "Cart not found");
@@ -33,7 +36,7 @@ const createOrder = asyncHandler(async (req, res) => {
 
   const order = await Order.create({
     user: req.user._id,
-    orderItems: cart.items,
+    orderItems,
     shippingAddress,
     paymentMethod,
     paymentStatus: "PENDING",
@@ -186,7 +189,7 @@ const cancelOrder = asyncHandler(async (req, res) => {
 
 export {
   createOrder,
-  getuserOrders,
+  getuserOrders, 
   getOrderById,
   getAllOrders,
   updateOrderStatus,

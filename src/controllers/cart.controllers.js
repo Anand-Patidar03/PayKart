@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.models.js";
 import { Product } from "../models/product.models.js";
-import { Cart } from "../models/cart.models.js";
+import { Cart } from "../models/cart.models.js"; 
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
@@ -34,7 +34,6 @@ const addToCart = asyncHandler(async (req, res) => {
       totalPrice: product.price * quantity,
     });
   } else {
-    // update existing cart
     const itemIndex = cart.items.findIndex(
       (item) => item.product.toString() === productId
     );
@@ -111,7 +110,7 @@ const updateCart = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Cart not found");
   }
 
-  const itemidx = userCart.items.findIndex(
+  const itemidx = cart.items.findIndex(
     (item) => item.product.toString() === productId
   );
 

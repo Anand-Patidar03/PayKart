@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   addReview,
-  updateReview,
+  updateReview, 
   deleteReview,
   getProductReviews,
 } from "../controllers/rating.controllers.js";

@@ -3,9 +3,9 @@ import {
   addToCart,
   removeFromCart,
   updateCart,
-  getCart,
+  getCart, 
   clearCart,
-} from "../controllers/user.controllers.js";
+} from "../controllers/cart.controllers.js";
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const router = Router();

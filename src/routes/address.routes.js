@@ -8,7 +8,7 @@ import {
 } from "../controllers/address.controllers.js";
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
-const router = Router();
+const router = Router(); 
 
 router.route("/").post(verifyJWT, addAddress);
 router.route("/:addressId").delete(verifyJWT, deleteAddress);
