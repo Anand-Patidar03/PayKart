@@ -2,7 +2,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { User } from "../models/user.models.js";
 import { Product } from "../models/product.models.js";
-import { Cart } from "../models/cart.models.js"; 
+import { Cart } from "../models/cart.models.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import jwt from "jsonwebtoken";
 
@@ -56,9 +56,11 @@ const addToCart = asyncHandler(async (req, res) => {
     await cart.save();
   }
 
+  const populatedCart = await Cart.findById(cart._id).populate("items.product");
+
   return res
     .status(201)
-    .json(new ApiResponse(201, cart, "Cart created successfully"));
+    .json(new ApiResponse(201, populatedCart, "Cart created successfully"));
 });
 
 const removeFromCart = asyncHandler(async (req, res) => {
@@ -90,9 +92,11 @@ const removeFromCart = asyncHandler(async (req, res) => {
 
   await userCart.save();
 
+  const populatedCart = await Cart.findById(userCart._id).populate("items.product");
+
   return res
     .status(200)
-    .json(new ApiResponse(200, userCart, "Product removed from cart"));
+    .json(new ApiResponse(200, populatedCart, "Product removed from cart"));
 });
 
 const updateCart = asyncHandler(async (req, res) => {
@@ -127,22 +131,24 @@ const updateCart = asyncHandler(async (req, res) => {
 
   await cart.save();
 
+  const populatedCart = await Cart.findById(cart._id).populate("items.product");
+
   return res
     .status(200)
-    .json(new ApiResponse(200, cart, "Cart updated successfully"));
+    .json(new ApiResponse(200, populatedCart, "Cart updated successfully"));
 });
 
 const getCart = asyncHandler(async (req, res) => {
 
-    const cart = await Cart.findOne({ user: req.user._id }).populate(
-      "items.product"
-    );
-  
-    if (!cart) {
-      throw new ApiError(404, "Cart not found");
-    }
+  const cart = await Cart.findOne({ user: req.user._id }).populate(
+    "items.product"
+  );
 
-    return res 
+  if (!cart) {
+    throw new ApiError(404, "Cart not found");
+  }
+
+  return res
     .status(200)
     .json(new ApiResponse(200, cart, "Cart fetched successfully"));
 

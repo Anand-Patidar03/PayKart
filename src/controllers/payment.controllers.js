@@ -10,7 +10,7 @@ const initiatePayment = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
   const { paymentProvider, currency = "INR" } = req.body;
 
-  if (!paymentProvider ) { 
+  if (!paymentProvider) {
     throw new ApiError(400, "Invalid  or paymentProvider");
   }
 
@@ -91,7 +91,6 @@ const verifyPayment = asyncHandler(async (req, res) => {
     throw new ApiError(400, "Payment already verified");
   }
 
-  // 🔐 SIGNATURE VERIFICATION (CORE LOGIC)
   const body = `${providerOrderId}|${providerPaymentId}`;
 
   const expectedSignature = crypto

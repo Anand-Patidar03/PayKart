@@ -7,13 +7,13 @@ import mongoose from "mongoose";
 import { Product } from "../models/product.models.js";
 
 const createProduct = asyncHandler(async (req, res) => {
-  const { name, description, price, stock, images, categoryId } = req.body;
+  const { name, description, price, stock, images, categoryId, specs } = req.body;
   if (!name || !description || !price || !categoryId || !stock) {
     throw new ApiError(400, "All fields are required");
   }
 
   const category = await Category.findById(categoryId);
- 
+
   if (!category || !category.isActive) {
     throw new ApiError(400, "Invalid or inactive category");
   }
@@ -29,6 +29,7 @@ const createProduct = asyncHandler(async (req, res) => {
     category: category._id,
     stock,
     images,
+    specs: specs || [],
     createdBy: req.user?._id,
   });
 
@@ -60,7 +61,7 @@ const getAllProducts = asyncHandler(async (req, res) => {
     };
   }
 
-   if (categoryId) {
+  if (categoryId) {
     if (!mongoose.Types.ObjectId.isValid(categoryId)) {
       throw new ApiError(400, "Invalid category id");
     }
@@ -115,13 +116,13 @@ const getProductById = asyncHandler(async (req, res) => {
 
 const updateProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
-  const { name, description, price, images, categoryId, stock } = req.body;
+  const { name, description, price, images, categoryId, stock, specs } = req.body;
 
-  if (!name && !description && !price && !images && !categoryId && !stock) {
+  if (!name && !description && !price && !images && !categoryId && !stock && !specs) {
     throw new ApiError(400, "At least one field is required");
   }
 
-  
+
   if (!mongoose.Types.ObjectId.isValid(productId)) {
     throw new ApiError(400, "Invalid product id");
   }
@@ -149,6 +150,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   if (description) product.description = description;
   if (price) product.price = price;
   if (stock) product.stock = stock;
+  if (specs) product.specs = specs;
 
   if (images) {
     if (!Array.isArray(images) || images.length === 0) {
@@ -190,5 +192,5 @@ export {
   getAllProducts,
   getProductById,
   updateProduct,
-  deleteProduct, 
+  deleteProduct,
 };

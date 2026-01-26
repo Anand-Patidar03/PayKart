@@ -50,17 +50,6 @@ const getAllCategory = asyncHandler(async (req, res) => {
 
   let category = await Category.find(filter).sort(sort).limit(limitNumber);
 
-  //   let query = Category.find(filter)
-  //     .sort(sort)
-  //     .skip(skip)
-  //     .limit(limitNumber);
-
-  //   if (req.user?.role === "ADMIN") {
-  //     query = query.populate("createdBy", "fullName email");
-  //   }
-
-  //   const categories = await query;
-
   if (req.user?.role === "ADMIN") {
     category = query.populate("createdBy", "fullName email");
   }
@@ -71,7 +60,7 @@ const getAllCategory = asyncHandler(async (req, res) => {
     new ApiResponse(
       200,
       {
-        category, //categories
+        category,
         totalCategory,
         currentPage: pageNumber,
         totalPages: Math.ceil(totalCategory / limitNumber),
